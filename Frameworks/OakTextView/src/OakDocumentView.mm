@@ -367,21 +367,6 @@ private:
 	else	[[NSUserDefaults standardUserDefaults] setObject:YES_obj forKey:@"DocumentView Disable Line Numbers"];
 }
 
-- (void)toggleContinuousSpellChecking:(id)sender
-{
-	bool flag = !document->buffer().live_spelling();
-	document->buffer().set_live_spelling(flag);
-	settings_t::set(kSettingsSpellCheckingKey, flag, document->file_type(), document->path());
-}
-
-- (void)takeSpellingLanguageFrom:(id)sender
-{
-	NSString* lang = (NSString*)[sender representedObject];
-	[[NSSpellChecker sharedSpellChecker] setLanguage:lang];
-	document->buffer().set_spelling_language(to_s(lang));
-	settings_t::set(kSettingsSpellingLanguageKey, to_s(lang), document->file_type(), document->path());
-}
-
 - (BOOL)validateMenuItem:(NSMenuItem*)aMenuItem
 {
 	if([aMenuItem action] == @selector(toggleLineNumbers:))

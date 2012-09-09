@@ -1850,6 +1850,21 @@ static void update_menu_key_equivalents (NSMenu* menu, action_to_key_t const& ac
 	}
 }
 
+- (void)toggleContinuousSpellChecking:(id)sender
+{
+	bool flag = !document->buffer().live_spelling();
+	document->buffer().set_live_spelling(flag);
+	settings_t::set(kSettingsSpellCheckingKey, flag, document->file_type(), document->path());
+}
+
+- (void)takeSpellingLanguageFrom:(id)sender
+{
+	NSString* lang = (NSString*)[sender representedObject];
+	[[NSSpellChecker sharedSpellChecker] setLanguage:lang];
+	document->buffer().set_spelling_language(to_s(lang));
+	settings_t::set(kSettingsSpellingLanguageKey, to_s(lang), document->file_type(), document->path());
+}
+
 - (scope::context_t const&)scopeContext
 {
 	static scope::context_t res;
